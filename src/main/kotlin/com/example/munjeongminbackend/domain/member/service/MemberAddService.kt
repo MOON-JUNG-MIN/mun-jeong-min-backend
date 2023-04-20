@@ -8,6 +8,8 @@ import com.example.munjeongminbackend.domain.member.exception.MemberExistExcepti
 import com.example.munjeongminbackend.domain.member.present.dto.MemberAddRequest
 import com.example.munjeongminbackend.domain.user.domain.repository.UserRepository
 import com.example.munjeongminbackend.domain.user.exception.UserNotFoundException
+import com.example.munjeongminbackend.domain.user.facade.UserFacade
+import com.example.munjeongminbackend.infra.fcm.FcmService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -15,24 +17,28 @@ import org.springframework.transaction.annotation.Transactional
 class MemberAddService (
         private val memberRepository: MemberRepository,
         private val userRepository: UserRepository,
-        private val bucketRepository: BucketRepository
+        private val bucketRepository: BucketRepository,
+        private val fcmService: FcmService,
+        private val userFacade: UserFacade
 ) {
 
     @Transactional(readOnly = true)
     fun execute(id: Long, request: MemberAddRequest) {
+        val user = userFacade.getCurrentUser()
         val bucket = bucketRepository.findBucketById(id) ?: throw BucketNotFoundException.EXCEPTION
-        val user = userRepository.findUserByEmail(request.email) ?: throw UserNotFoundException.EXCEPTION
+        val member = userRepository.findUserByEmail(request.email) ?: throw UserNotFoundException.EXCEPTION
 
-        memberRepository.findMemberByUser(user)?.let {
+        memberRepository.findMemberByUser(member)?.let {
             throw MemberExistException.EXCEPTION
         }
 
         memberRepository.save(
                 Member(
                         bucket = bucket,
-                        user = user
+                        user = member
                 )
         )
+        fcmService.sendMessage(member.deviceToken, "버킷리스트에 초대되었습니다.", "${user.nickname}님의 ${bucket.title}에 초대 되었습니다")
 
     }
 

@@ -12,9 +12,9 @@ spring:
     show-sql: true
 
   datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/moon?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true}
-    username: ${DB_USERNAME:root}
-    password: ${DB_PWD:0319}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PWD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   security:
@@ -47,3 +47,6 @@ feign:
       default:
         connectTimeout: 60000
         readTimeout: 10000
+
+fcm:
+  path: ${PATH:/path/service.json}
