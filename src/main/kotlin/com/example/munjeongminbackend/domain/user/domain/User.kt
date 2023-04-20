@@ -19,6 +19,9 @@ data class User (
         val nickname: String,
 
         @field:NotNull
-        val profileImage: String
+        val profileImage: String,
+
+        @field:NotNull
+        val deviceToken: String
 
 ) : BaseEntity()

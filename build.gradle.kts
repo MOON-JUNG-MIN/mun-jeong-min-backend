@@ -45,6 +45,8 @@ dependencies {
     implementation ("org.webjars:sockjs-client:1.1.2")
     implementation ("org.webjars:stomp-websocket:2.3.3-1")
 
+    implementation ("com.google.firebase:firebase-admin:9.1.0")
+
     implementation("com.querydsl:querydsl-jpa:5.0.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
 }

@@ -47,7 +47,8 @@ class LoginService (
                 User(
                         nickname = user.name,
                         email = user.email,
-                        profileImage = user.picture
+                        profileImage = user.picture,
+                        deviceToken = codeRequest.deviceToken
                 )
         )
 
