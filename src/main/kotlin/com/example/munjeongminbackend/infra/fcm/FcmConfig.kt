@@ -10,11 +10,10 @@ import java.io.IOException
 import javax.annotation.PostConstruct
 
 @Configuration
-class FcmConfig (
-        @Value("${fcm.path}")
+class FcmConfig(
+        @Value("\${fcm.path}")
         private val value: String
 ) {
-
     @PostConstruct
     fun initialize() {
         try {

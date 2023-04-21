@@ -49,4 +49,4 @@ feign:
         readTimeout: 10000
 
 fcm:
-  path: ${PATH:/path/service.json}
+  path: ${KEY}

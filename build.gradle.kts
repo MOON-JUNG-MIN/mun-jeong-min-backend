@@ -9,6 +9,12 @@ plugins {
     kotlin("kapt") version "1.6.10"
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.1")
+    }
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -45,7 +51,10 @@ dependencies {
     implementation ("org.webjars:sockjs-client:1.1.2")
     implementation ("org.webjars:stomp-websocket:2.3.3-1")
 
-    implementation ("com.google.firebase:firebase-admin:9.1.0")
+    implementation("org.mapstruct:mapstruct:1.4.2.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
+
+    implementation ("com.google.firebase:firebase-admin:8.1.0")
 
     implementation("com.querydsl:querydsl-jpa:5.0.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
