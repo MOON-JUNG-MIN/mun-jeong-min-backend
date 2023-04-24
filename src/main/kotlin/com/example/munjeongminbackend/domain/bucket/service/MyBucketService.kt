@@ -1,5 +1,6 @@
 package com.example.munjeongminbackend.domain.bucket.service
 
+import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepository
 import com.example.munjeongminbackend.domain.bucket.present.dto.MyBucketListResponse
 import com.example.munjeongminbackend.domain.bucket.present.dto.MyBucketResponse
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
@@ -13,19 +14,24 @@ import java.util.stream.Collectors
 class MyBucketService (
         private val memberRepository: MemberRepository,
         private val userFacade: UserFacade,
-        private val memberFacade: MemberFacade
+        private val memberFacade: MemberFacade,
+        private val bucketRepository: BucketRepository
 ) {
 
     @Transactional(readOnly = true)
     fun execute(): MyBucketListResponse {
         val user = userFacade.getCurrentUser()
+        var check = 0
 
         val buckets = memberRepository.findMembersByUser(user)
                 .stream()
                 .map {
+                    if (it.bucket.isEnd) {
+                        check += 1
+                    }
                     val cnt = it.bucket
                     MyBucketResponse (
-                            id = it.bucket.id,
+                            id = cnt.id,
                             title = cnt.title,
                             content = cnt.content,
                             image = cnt.image,
@@ -37,7 +43,8 @@ class MyBucketService (
                 }.collect(Collectors.toList())
 
         return MyBucketListResponse(
-                buckets
+                buckets,
+                (bucketRepository.countAllByUser(user).toFloat() / check.toFloat())
         )
     }
 }
