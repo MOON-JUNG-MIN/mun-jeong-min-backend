@@ -17,8 +17,7 @@ import java.util.stream.Collectors
 class RoomService (
         private val roomRepository: RoomRepository,
         private val userFacade: UserFacade,
-        private val messageRepository: MessageRepository,
-        private val userRepository: UserRepository
+        private val messageRepository: MessageRepository
 ) {
 
     @Transactional(readOnly = true)

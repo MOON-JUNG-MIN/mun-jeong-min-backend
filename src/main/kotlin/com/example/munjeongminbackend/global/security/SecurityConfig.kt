@@ -40,7 +40,10 @@ class SecurityConfig (
 
                 .antMatchers(HttpMethod.POST, "/member/{id}").authenticated()
 
-                .anyRequest().authenticated()
+                .antMatchers(HttpMethod.GET, "/room").authenticated()
+                .antMatchers(HttpMethod.GET, "/room/{id}").authenticated()
+
+                .anyRequest().permitAll()
 
                 .and()
                 .apply(FilterConfig(jwtProvider, objectMapper))
