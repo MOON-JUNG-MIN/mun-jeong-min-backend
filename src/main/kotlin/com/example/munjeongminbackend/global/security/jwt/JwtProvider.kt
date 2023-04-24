@@ -40,7 +40,7 @@ class JwtProvider (
         return parseToken(token)
     }
 
-    private fun parseToken(token: String?) : String? {
+    fun parseToken(token: String?) : String? {
         return if(token != null && token.startsWith(jwtProperties.prefix)) {
             token.replace(jwtProperties.prefix, "")
         } else null
@@ -57,6 +57,7 @@ class JwtProvider (
             Jwts.parser().setSigningKey(jwtProperties.secretKey)
                     .parseClaimsJws(token).body.subject
         } catch (e: Exception) {
+            e.printStackTrace()
             when (e) {
                 is io.jsonwebtoken.ExpiredJwtException -> throw ExpiredJwtException.EXCEPTION
                 else -> throw InValidJwtException.EXCEPTION
