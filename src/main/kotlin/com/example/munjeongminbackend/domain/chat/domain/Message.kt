@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "tbl_chat")
 data class Message (
-
+        
         @field:NotNull
         @field:Column(columnDefinition = "VARCHAR(500)")
         val content: String,

@@ -2,6 +2,8 @@ package com.example.munjeongminbackend.domain.member.service
 
 import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepository
 import com.example.munjeongminbackend.domain.bucket.exception.BucketNotFoundException
+import com.example.munjeongminbackend.domain.chat.domain.Room
+import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
 import com.example.munjeongminbackend.domain.member.domain.Member
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
 import com.example.munjeongminbackend.domain.member.exception.MemberExistException
@@ -19,7 +21,8 @@ class MemberAddService (
         private val userRepository: UserRepository,
         private val bucketRepository: BucketRepository,
         private val fcmService: FcmService,
-        private val userFacade: UserFacade
+        private val userFacade: UserFacade,
+        private val roomRepository: RoomRepository
 ) {
 
     @Transactional(readOnly = true)
@@ -39,6 +42,12 @@ class MemberAddService (
                 )
         )
         fcmService.sendMessage(member.deviceToken, "버킷리스트에 초대되었습니다.", "${user.nickname}님의 ${bucket.title}에 초대 되었습니다")
+        roomRepository.save(
+                Room(
+                        bucket.title,
+                        member
+                )
+        )
 
     }
 
