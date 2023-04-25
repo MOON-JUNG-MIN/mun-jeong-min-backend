@@ -7,6 +7,8 @@ enum class ErrorCode (
         private val message: String
 ) : ErrorProperty {
 
+    BUCKET_NOT_AUTH(HttpStatus.BAD_REQUEST, "권한이 없음"),
+
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찿지 못함"),
     BUCKET_NOT_FOUND(HttpStatus.NOT_FOUND, "버킷을 찾지 못함"),
 
