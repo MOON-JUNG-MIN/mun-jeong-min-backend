@@ -20,7 +20,7 @@ class LoginService (
         private val jwtProvider: JwtProvider
 ) {
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun login(codeRequest: CodeRequest): TokenResponse {
 
         val access = accessTokenClient.access(

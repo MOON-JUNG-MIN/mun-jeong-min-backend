@@ -25,7 +25,7 @@ class MemberAddService (
         private val roomRepository: RoomRepository
 ) {
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun execute(id: Long, request: MemberAddRequest) {
         val user = userFacade.getCurrentUser()
         val bucket = bucketRepository.findBucketById(id) ?: throw BucketNotFoundException.EXCEPTION

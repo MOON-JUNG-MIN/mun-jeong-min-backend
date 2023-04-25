@@ -3,6 +3,8 @@ package com.example.munjeongminbackend.domain.bucket.service
 import com.example.munjeongminbackend.domain.bucket.domain.Bucket
 import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepository
 import com.example.munjeongminbackend.domain.bucket.present.dto.BucketCreateRequest
+import com.example.munjeongminbackend.domain.chat.domain.Room
+import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
 import com.example.munjeongminbackend.domain.member.domain.Member
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
@@ -13,9 +15,10 @@ import org.springframework.transaction.annotation.Transactional
 class CreateBucketService (
         private val bucketRepository: BucketRepository,
         private val memberRepository: MemberRepository,
+        private val roomRepository: RoomRepository,
         private val userFacade: UserFacade
 ) {
-    @Transactional(readOnly = true)
+    @Transactional
     fun execute(request: BucketCreateRequest) {
         val user = userFacade.getCurrentUser()
         val bucket = bucketRepository.save(
@@ -33,6 +36,12 @@ class CreateBucketService (
                 Member(
                         bucket = bucket,
                         user = user
+                )
+        )
+        roomRepository.save(
+                Room(
+                        bucket.title,
+                        user
                 )
         )
     }

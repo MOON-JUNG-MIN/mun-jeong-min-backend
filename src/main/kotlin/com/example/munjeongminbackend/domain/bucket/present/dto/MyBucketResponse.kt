@@ -8,7 +8,7 @@ data class MyBucketResponse (
         val title: String,
         val content: String,
         val image: String,
-        val targetDate: Date,
+        val targetDate: LocalDateTime,
         val isEnd: Boolean,
         val startDate: LocalDateTime,
         val members: List<MemberProfileResponse>

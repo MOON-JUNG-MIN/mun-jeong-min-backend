@@ -17,7 +17,7 @@ class DeleteBucketService (
         private val userFacade: UserFacade
 ) {
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun execute(id: Long) {
         val bucket = bucketFacade.findById(id)
         val user = userFacade.getCurrentUser()
