@@ -1,5 +1,4 @@
 spring:
-
   jackson:
     property-naming-strategy: SNAKE_CASE
 
@@ -62,3 +61,6 @@ cloud:
       static: ${S3_REGION:ap-northeast-2}
     stack:
       auto: false
+
+server:
+  port: 8081
