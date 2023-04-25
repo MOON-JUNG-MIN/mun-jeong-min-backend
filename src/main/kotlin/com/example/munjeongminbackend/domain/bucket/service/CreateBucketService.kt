@@ -10,6 +10,8 @@ import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepo
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Service
 class CreateBucketService (
@@ -26,7 +28,11 @@ class CreateBucketService (
                         title = request.title,
                         content = request.content,
                         image = request.image,
-                        targetDate = request.targetDate,
+                        LocalDate.of(
+                                request.targetDate.split(".")[0].toInt(),
+                                request.targetDate.split(".")[1].toInt(),
+                                request.targetDate.split(".")[2].toInt()
+                        ),
                         isEnd = false,
                         user = user
                 )
@@ -40,7 +46,7 @@ class CreateBucketService (
         )
         roomRepository.save(
                 Room(
-                        bucket.title,
+                        bucket,
                         user
                 )
         )

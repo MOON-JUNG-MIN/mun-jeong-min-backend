@@ -2,6 +2,7 @@ package com.example.munjeongminbackend.domain.bucket.domain
 
 import com.example.munjeongminbackend.domain.user.domain.User
 import com.example.munjeongminbackend.global.entity.BaseEntity
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
@@ -24,7 +25,7 @@ data class Bucket(
         var image: String,
 
         @field:NotNull
-        var targetDate: LocalDateTime,
+        var targetDate: LocalDate,
 
         @field:NotNull
         var isEnd: Boolean,
@@ -34,7 +35,7 @@ data class Bucket(
         val user: User
 
 ) : BaseEntity() {
-    fun update(title: String, content: String, image: String, targetDate: LocalDateTime) {
+    fun update(title: String, content: String, image: String, targetDate: LocalDate) {
         this.title = title
         this.content = content
         this.image = image

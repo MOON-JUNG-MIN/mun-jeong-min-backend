@@ -7,6 +7,7 @@ import com.example.munjeongminbackend.domain.member.exception.MemberNotFoundExce
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDate
 import java.util.stream.Collectors
 
 @Service
@@ -32,7 +33,11 @@ class UpdateBucketService (
                 request.title,
                 request.content,
                 request.image,
-                request.targetDate
+                LocalDate.of(
+                        request.targetDate.split(".")[0].toInt(),
+                        request.targetDate.split(".")[1].toInt(),
+                        request.targetDate.split(".")[2].toInt()
+                )
         )
     }
 }

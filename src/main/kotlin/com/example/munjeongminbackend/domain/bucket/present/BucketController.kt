@@ -30,7 +30,7 @@ class BucketController (
     fun update(@PathVariable("id") id: Long, @RequestBody request: BucketUpdateRequest) {
         updateBucketService.execute(id, request)
     }
-
+    
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long) {
         deleteBucketService.execute(id)

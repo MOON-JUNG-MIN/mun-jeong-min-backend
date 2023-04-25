@@ -7,5 +7,5 @@ data class BucketUpdateRequest(
         val title: String,
         val content: String,
         val image: String,
-        val targetDate: LocalDateTime
+        val targetDate: String
 )
