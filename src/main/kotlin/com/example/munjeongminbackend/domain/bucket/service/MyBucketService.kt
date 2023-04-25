@@ -42,9 +42,15 @@ class MyBucketService (
                     )
                 }.collect(Collectors.toList())
 
+        var percent = bucketRepository.countAllByUser(user) / check.toFloat()
+
+        if(check == 0) {
+            percent = 0F
+        }
+
         return MyBucketListResponse(
                 buckets,
-                (bucketRepository.countAllByUser(user).toFloat() / check.toFloat())
+                percent
         )
     }
 }
