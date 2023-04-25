@@ -26,7 +26,7 @@ class RoomService (
                 .map {
                     RoomResponse(
                             it.id,
-                            it.roomName
+                            it.bucket.title
                     )
                 }.collect(Collectors.toList())
 
@@ -52,7 +52,7 @@ class RoomService (
 
         return RoomDataResponse (
                 room.id,
-                room.roomName,
+                room.bucket.title,
                 data
         )
     }

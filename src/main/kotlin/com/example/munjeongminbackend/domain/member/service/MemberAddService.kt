@@ -44,7 +44,7 @@ class MemberAddService (
         fcmService.sendMessage(member.deviceToken, "버킷리스트에 초대되었습니다.", "${user.nickname}님의 ${bucket.title}에 초대 되었습니다")
         roomRepository.save(
                 Room(
-                        bucket.title,
+                        bucket,
                         member
                 )
         )
