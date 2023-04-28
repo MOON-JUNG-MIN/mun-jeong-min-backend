@@ -34,7 +34,7 @@ class MemberAddService (
         memberRepository.findMemberByUser(member)?.let {
             throw MemberExistException.EXCEPTION
         }
-
+        
         memberRepository.save(
                 Member(
                         bucket = bucket,

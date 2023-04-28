@@ -20,7 +20,7 @@ class UpdateBucketService (
     @Transactional
     fun execute(id: Long, request: BucketUpdateRequest) {
         val bucket = bucketFacade.findById(id)
-
+        
         val user = userFacade.getCurrentUser()
 
         val members = memberRepository.findMembersByBucket(bucket).stream().map { it.user }.collect(Collectors.toList())

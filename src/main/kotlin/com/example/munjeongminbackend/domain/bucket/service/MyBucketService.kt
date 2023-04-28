@@ -22,6 +22,7 @@ class MyBucketService (
     fun execute(): MyBucketListResponse {
         val user = userFacade.getCurrentUser()
         var check = 0
+        var tmp = 0
 
         val buckets = memberRepository.findMembersByUser(user)
                 .stream()
@@ -29,6 +30,7 @@ class MyBucketService (
                     if (it.bucket.isEnd) {
                         check += 1
                     }
+                    tmp += 1
                     val cnt = it.bucket
                     MyBucketResponse (
                             id = cnt.id,
@@ -42,7 +44,7 @@ class MyBucketService (
                     )
                 }.collect(Collectors.toList())
 
-        var percent = bucketRepository.countAllByUser(user) / check.toFloat()
+        var percent = check / tmp.toFloat() * 100
 
         if(check == 0) {
             percent = 0F

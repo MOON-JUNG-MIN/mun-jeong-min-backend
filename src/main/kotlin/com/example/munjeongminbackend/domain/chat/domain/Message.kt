@@ -21,4 +21,4 @@ data class Message (
         @JoinColumn(name = "room_id", nullable = false)
         val room: Room
 
-) : BaseEntity()
+) : BaseEntity()        
