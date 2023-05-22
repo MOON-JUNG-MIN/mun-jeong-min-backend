@@ -20,9 +20,8 @@ data class Bucket(
         @field:Column(columnDefinition = "VARCHAR(500)")
         var content: String,
 
-        @field:NotNull
         @field:Column(columnDefinition = "VARCHAR(200)")
-        var image: String,
+        var image: String?,
 
         @field:NotNull
         var targetDate: LocalDate,
@@ -35,7 +34,7 @@ data class Bucket(
         val user: User
 
 ) : BaseEntity() {
-    fun update(title: String, content: String, image: String, targetDate: LocalDate) {
+    fun update(title: String, content: String, image: String?, targetDate: LocalDate) {
         this.title = title
         this.content = content
         this.image = image

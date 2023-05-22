@@ -23,11 +23,12 @@ class CreateBucketService (
     @Transactional
     fun execute(request: BucketCreateRequest) {
         val user = userFacade.getCurrentUser()
+
         val bucket = bucketRepository.save(
                 Bucket(
                         title = request.title,
                         content = request.content,
-                        image = request.image,
+                        request.image,
                         LocalDate.of(
                                 request.targetDate.split(".")[0].toInt(),
                                 request.targetDate.split(".")[1].toInt(),

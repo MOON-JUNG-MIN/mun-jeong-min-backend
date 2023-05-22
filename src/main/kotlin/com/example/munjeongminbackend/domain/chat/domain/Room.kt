@@ -4,7 +4,6 @@ import com.example.munjeongminbackend.domain.bucket.domain.Bucket
 import com.example.munjeongminbackend.domain.user.domain.User
 import com.example.munjeongminbackend.global.entity.BaseEntity
 import javax.persistence.*
-import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "tbl_room")

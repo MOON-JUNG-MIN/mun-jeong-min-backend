@@ -6,6 +6,6 @@ import java.util.*
 data class BucketUpdateRequest(
         val title: String,
         val content: String,
-        val image: String,
+        val image: String?,
         val targetDate: String
 )
