@@ -1,8 +1,8 @@
 package com.example.munjeongminbackend.domain.bucket.service
 
-import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepository
 import com.example.munjeongminbackend.domain.bucket.present.dto.MyBucketListResponse
 import com.example.munjeongminbackend.domain.bucket.present.dto.MyBucketResponse
+import com.example.munjeongminbackend.domain.chat.facade.RoomFacade
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
 import com.example.munjeongminbackend.domain.member.facade.MemberFacade
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
@@ -15,7 +15,7 @@ class MyBucketService (
         private val memberRepository: MemberRepository,
         private val userFacade: UserFacade,
         private val memberFacade: MemberFacade,
-        private val bucketRepository: BucketRepository
+        private val roomFacade: RoomFacade
 ) {
 
     @Transactional(readOnly = true)
@@ -32,6 +32,7 @@ class MyBucketService (
                     }
                     tmp += 1
                     val cnt = it.bucket
+                    val room = roomFacade.getRoomByBucket(cnt)
                     MyBucketResponse (
                             id = cnt.id,
                             title = cnt.title,
@@ -40,7 +41,9 @@ class MyBucketService (
                             targetDate = cnt.targetDate,
                             isEnd = cnt.isEnd,
                             startDate = cnt.createdAt,
-                            members = memberFacade.findUsersByBucket(cnt)
+                            members = memberFacade.findUsersByBucket(cnt),
+                            roomId = room.id,
+                            roomName = room.bucket.title
                     )
                 }.collect(Collectors.toList())
 
