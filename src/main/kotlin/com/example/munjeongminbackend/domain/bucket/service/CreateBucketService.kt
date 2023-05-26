@@ -30,9 +30,9 @@ class CreateBucketService (
                         content = request.content,
                         request.image,
                         LocalDate.of(
-                                request.targetDate.split(".")[0].toInt(),
-                                request.targetDate.split(".")[1].toInt(),
-                                request.targetDate.split(".")[2].toInt()
+                                request.targetDate.split("-")[0].toInt(),
+                                request.targetDate.split("-")[1].toInt(),
+                                request.targetDate.split("-")[2].toInt()
                         ),
                         isEnd = false,
                         user = user
