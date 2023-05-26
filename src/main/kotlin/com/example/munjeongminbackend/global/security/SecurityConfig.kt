@@ -40,6 +40,8 @@ class SecurityConfig (
 
                 .antMatchers(HttpMethod.POST, "/member/{id}").authenticated()
 
+                .antMatchers(HttpMethod.POST, "/image").permitAll()
+
                 .antMatchers(HttpMethod.GET, "/room").authenticated()
                 .antMatchers(HttpMethod.GET, "/room/{id}").authenticated()
 
