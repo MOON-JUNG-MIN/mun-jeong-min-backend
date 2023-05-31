@@ -1,6 +1,5 @@
 package com.example.munjeongminbackend.domain.bucket.present.dto
 
-import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
 
 data class BucketCreateRequest (

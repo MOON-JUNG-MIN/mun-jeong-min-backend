@@ -2,6 +2,7 @@ package com.example.munjeongminbackend.domain.bucket.service
 
 import com.example.munjeongminbackend.domain.bucket.domain.Bucket
 import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepository
+import com.example.munjeongminbackend.domain.bucket.exception.RequestNullException
 import com.example.munjeongminbackend.domain.bucket.present.dto.BucketCreateRequest
 import com.example.munjeongminbackend.domain.chat.domain.Room
 import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
@@ -23,6 +24,10 @@ class CreateBucketService (
     @Transactional
     fun execute(request: BucketCreateRequest) {
         val user = userFacade.getCurrentUser()
+
+        if(request.targetDate == "" || request.targetDate == " ") {
+            throw RequestNullException.EXCEPTION
+        }
 
         val bucket = bucketRepository.save(
                 Bucket(
