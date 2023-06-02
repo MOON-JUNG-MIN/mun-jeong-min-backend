@@ -52,7 +52,7 @@ class JwtProvider (
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
-    private fun getTokenBody(token: String): String {
+    fun getTokenBody(token: String): String {
         return try {
             Jwts.parser().setSigningKey(jwtProperties.secretKey)
                     .parseClaimsJws(token).body.subject

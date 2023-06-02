@@ -10,6 +10,7 @@ enum class ErrorCode (
     BUCKET_NOT_AUTH(HttpStatus.BAD_REQUEST, "권한이 없음"),
     SAVE_IMAGE_FAILED_EXCEPTION(HttpStatus.BAD_REQUEST, "이미지 저장 실패"),
     REQUEST_NULL(HttpStatus.BAD_REQUEST, "요청 비어있음"),
+    CHAT_TOKEN_NULL(HttpStatus.BAD_REQUEST, "채팅 토큰 요청 없음"),
 
     IMAGE_NOT_VALUE_EXCEPTION(HttpStatus.NOT_FOUND, "이미지를 찾지 못함"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찿지 못함"),
