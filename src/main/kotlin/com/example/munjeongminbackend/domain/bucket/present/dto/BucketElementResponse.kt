@@ -5,5 +5,7 @@ data class BucketElementResponse(
         val title: String,
         val content: String,
         val image: String?,
-        val targetDate: String
+        val targetDate: String,
+        val roomId: Long,
+        val roomName: String
 )
