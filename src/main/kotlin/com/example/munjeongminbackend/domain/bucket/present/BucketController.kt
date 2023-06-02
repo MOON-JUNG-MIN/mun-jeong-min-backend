@@ -1,6 +1,7 @@
 package com.example.munjeongminbackend.domain.bucket.present
 
 import com.example.munjeongminbackend.domain.bucket.present.dto.BucketCreateRequest
+import com.example.munjeongminbackend.domain.bucket.present.dto.BucketElementResponse
 import com.example.munjeongminbackend.domain.bucket.present.dto.BucketUpdateRequest
 import com.example.munjeongminbackend.domain.bucket.present.dto.MyBucketListResponse
 import com.example.munjeongminbackend.domain.bucket.service.*
@@ -13,8 +14,14 @@ class BucketController (
         private val updateBucketService: UpdateBucketService,
         private val deleteBucketService: DeleteBucketService,
         private val completeBucketService: CompleteBucketService,
-        private val myBucketService: MyBucketService
+        private val myBucketService: MyBucketService,
+        private val bucketElementService: BucketElementService
 ) {
+
+    @GetMapping("/{id}")
+    fun getOne(@PathVariable("id") id: Long): BucketElementResponse {
+        return bucketElementService.execute(id)
+    }
 
     @GetMapping
     fun read(): MyBucketListResponse {

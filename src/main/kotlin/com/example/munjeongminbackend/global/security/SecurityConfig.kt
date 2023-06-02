@@ -34,6 +34,7 @@ class SecurityConfig (
 
                 .antMatchers(HttpMethod.POST, "/bucket").authenticated()
                 .antMatchers(HttpMethod.GET, "/bucket").authenticated()
+                .antMatchers(HttpMethod.GET, "/bucket/{id}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/bucket/{id}").authenticated()
                 .antMatchers(HttpMethod.PUT, "/bucket/end/{id}").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/bucket/{id}").authenticated()
