@@ -8,16 +8,16 @@ import com.example.munjeongminbackend.domain.chat.exception.RoomNotFoundExceptio
 import com.example.munjeongminbackend.domain.chat.present.dto.MessageRequest
 import com.example.munjeongminbackend.domain.user.domain.repository.UserRepository
 import com.example.munjeongminbackend.domain.user.exception.UserNotFoundException
-import com.example.munjeongminbackend.domain.user.facade.UserFacade
 import com.example.munjeongminbackend.global.security.jwt.JwtProvider
+import lombok.extern.slf4j.Slf4j
+import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor
 import org.springframework.messaging.simp.SimpMessageSendingOperations
 import org.springframework.web.bind.annotation.RestController
-import javax.servlet.http.HttpServletRequest
 
+@Slf4j
 @RestController
 class MessageController (
         private val simpMessageSendingOperations: SimpMessageSendingOperations,
@@ -27,8 +27,9 @@ class MessageController (
         private val userRepository: UserRepository
 ) {
 
-    @MessageMapping("/chat/message")
-    fun enter(@Header("roomId") roomId: Long, @Payload message: String, @Header("Authorization") token: String) {
+    @MessageMapping("/chat/message/{id}")
+    fun enter(@Payload message: MessageRequest, @Header("Authorization") token: String, @DestinationVariable("roomId") roomId: Long) {
+
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
 
@@ -39,7 +40,7 @@ class MessageController (
 
         simpMessageSendingOperations.convertAndSend("/topic/chat/room/$roomId", message)
         messageRepository.save(
-                Message(message, user, room)
+                Message(message.message, user, room)
         )
     }
 }
