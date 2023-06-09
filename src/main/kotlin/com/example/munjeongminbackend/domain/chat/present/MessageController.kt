@@ -28,11 +28,11 @@ class MessageController (
 ) {
 
     @MessageMapping("/chat/message/{id}")
-    fun enter(@Payload message: MessageRequest, @Header("Authorization") token: String, @DestinationVariable("roomId") roomId: Long) {
+    fun enter(@Payload message: MessageRequest, @Header("Authorization") authorization: String, @DestinationVariable("roomId") roomId: Long) {
         println(message.message)
-        println(token)
+        println(authorization)
         println(roomId)
-        val email: String = jwtProvider.parseToken(token)
+        val email: String = jwtProvider.parseToken(authorization)
                 ?: throw ChatTokenNullException.EXCEPTION
 
         val subject = jwtProvider.getTokenBody(email)
