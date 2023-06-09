@@ -5,6 +5,7 @@ import com.example.munjeongminbackend.domain.bucket.exception.BucketNotAuth
 import com.example.munjeongminbackend.domain.bucket.exception.BucketNotFoundException
 import com.example.munjeongminbackend.domain.bucket.facade.BucketFacade
 import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
+import com.example.munjeongminbackend.domain.chat.exception.RoomNotFoundException
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
 import org.springframework.stereotype.Service
@@ -32,7 +33,7 @@ class DeleteBucketService (
         val members = memberRepository.findMembersByBucket(bucket).stream().map { it }.collect(Collectors.toList())
         memberRepository.deleteAll(members)
 
-        val room = roomRepository.findRoomByBucket(bucket) ?: throw BucketNotFoundException.EXCEPTION
+        val room = roomRepository.findRoomByBucket(bucket) ?: throw RoomNotFoundException.EXCEPTION
         roomRepository.delete(room)
 
         bucketRepository.delete(bucket)
