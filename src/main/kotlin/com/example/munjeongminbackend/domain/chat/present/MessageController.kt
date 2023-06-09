@@ -29,7 +29,9 @@ class MessageController (
 
     @MessageMapping("/chat/message/{id}")
     fun enter(@Payload message: MessageRequest, @Header("Authorization") token: String, @DestinationVariable("roomId") roomId: Long) {
-
+        println(message.message)
+        println(token)
+        println(roomId)
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
 
