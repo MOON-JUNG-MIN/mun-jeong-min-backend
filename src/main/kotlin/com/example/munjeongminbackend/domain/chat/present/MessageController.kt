@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.simp.SimpMessageSendingOperations
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor
 import org.springframework.web.bind.annotation.RestController
 
 @Slf4j
@@ -28,11 +29,12 @@ class MessageController (
 ) {
 
     @MessageMapping("/chat/message/{id}")
-    fun enter(@Payload message: MessageRequest, @Header("Authorization") authorization: String, @DestinationVariable("roomId") roomId: Long) {
+    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor, @DestinationVariable("roomId") roomId: Long) {
+        val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
         println(message.message)
-        println(authorization)
+        println(token)
         println(roomId)
-        val email: String = jwtProvider.parseToken(authorization)
+        val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
 
         val subject = jwtProvider.getTokenBody(email)
