@@ -31,9 +31,6 @@ class MessageController (
     @MessageMapping("/chat/message/{id}")
     fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor) {
         val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
-        println(message.message)
-        println(token)
-        println(message.roomId)
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
 
@@ -42,10 +39,10 @@ class MessageController (
 
         val room = roomRepository.findRoomById(message.roomId) ?: throw RoomNotFoundException.EXCEPTION
 
-        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", message)
         messageRepository.save(
                 Message(message.message, user, room)
         )
+        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", message)
     }
 }
 // 채팅방에 입장할 때 이전 메세지들을 api로 다 불러옴
