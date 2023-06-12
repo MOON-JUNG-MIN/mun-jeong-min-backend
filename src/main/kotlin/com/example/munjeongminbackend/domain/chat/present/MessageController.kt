@@ -29,7 +29,7 @@ class MessageController (
         private val userRepository: UserRepository
 ) {
 
-    @MessageMapping("/chat/message/{id}")
+    @MessageMapping("/chat/message")
     fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor) {
         val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
         val email: String = jwtProvider.parseToken(token)
