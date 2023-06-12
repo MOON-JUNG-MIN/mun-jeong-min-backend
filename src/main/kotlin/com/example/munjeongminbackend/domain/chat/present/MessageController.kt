@@ -29,20 +29,20 @@ class MessageController (
 ) {
 
     @MessageMapping("/chat/message/{id}")
-    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor, @DestinationVariable("roomId") roomId: Long) {
+    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor) {
         val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
         println(message.message)
         println(token)
-        println(roomId)
+        println(message.roomId)
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
 
         val subject = jwtProvider.getTokenBody(email)
         val user = userRepository.findUserByEmail(subject) ?: throw UserNotFoundException.EXCEPTION
 
-        val room = roomRepository.findRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
+        val room = roomRepository.findRoomById(message.roomId) ?: throw RoomNotFoundException.EXCEPTION
 
-        simpMessageSendingOperations.convertAndSend("/topic/chat/room/$roomId", message)
+        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", message)
         messageRepository.save(
                 Message(message.message, user, room)
         )
