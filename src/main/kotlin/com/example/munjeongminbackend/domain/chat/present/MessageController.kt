@@ -6,6 +6,7 @@ import com.example.munjeongminbackend.domain.chat.domain.repository.RoomReposito
 import com.example.munjeongminbackend.domain.chat.exception.ChatTokenNullException
 import com.example.munjeongminbackend.domain.chat.exception.RoomNotFoundException
 import com.example.munjeongminbackend.domain.chat.present.dto.MessageRequest
+import com.example.munjeongminbackend.domain.chat.present.dto.list.MessageResponse
 import com.example.munjeongminbackend.domain.user.domain.repository.UserRepository
 import com.example.munjeongminbackend.domain.user.exception.UserNotFoundException
 import com.example.munjeongminbackend.global.security.jwt.JwtProvider
@@ -30,7 +31,7 @@ class MessageController (
 ) {
 
     @MessageMapping("/chat/message")
-    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor) {
+    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor): MessageResponse {
         val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
@@ -43,7 +44,15 @@ class MessageController (
         messageRepository.save(
                 Message(message.message, user, room)
         )
-        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", message)
+
+        val messageResponse = MessageResponse(
+                sender = user.nickname,
+                senderImage = user.profileImage,
+                message.message
+        )
+        
+        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", messageResponse)
+        return messageResponse
     }
 }
 // 채팅방에 입장할 때 이전 메세지들을 api로 다 불러옴

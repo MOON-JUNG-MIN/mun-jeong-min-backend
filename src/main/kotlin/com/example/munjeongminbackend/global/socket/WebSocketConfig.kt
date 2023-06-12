@@ -13,7 +13,6 @@ class WebSocketConfig (
     
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws/chat").setAllowedOriginPatterns("*")
-
     }
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
