@@ -30,8 +30,9 @@ class MessageController (
         private val userRepository: UserRepository
 ) {
 
-    @MessageMapping("/chat/message")
-    fun enter(@Payload message: MessageRequest, stompHeaderAccessor: StompHeaderAccessor): MessageResponse {
+    @MessageMapping("/chat/message/{roomId}")
+    @SendTo("/topic/chat/room/{roomId}")
+    fun enter(@Payload message: MessageRequest, @DestinationVariable roomId: Long, stompHeaderAccessor: StompHeaderAccessor): MessageResponse {
         val token = stompHeaderAccessor.getFirstNativeHeader("Authorization")
         val email: String = jwtProvider.parseToken(token)
                 ?: throw ChatTokenNullException.EXCEPTION
@@ -39,7 +40,7 @@ class MessageController (
         val subject = jwtProvider.getTokenBody(email)
         val user = userRepository.findUserByEmail(subject) ?: throw UserNotFoundException.EXCEPTION
 
-        val room = roomRepository.findRoomById(message.roomId) ?: throw RoomNotFoundException.EXCEPTION
+        val room = roomRepository.findRoomById(roomId) ?: throw RoomNotFoundException.EXCEPTION
 
         messageRepository.save(
                 Message(message.message, user, room)
@@ -50,13 +51,13 @@ class MessageController (
                 senderImage = user.profileImage,
                 message.message
         )
-        
-        simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", messageResponse)
+
+        //simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", messageResponse)
         return messageResponse
     }
 }
 // 채팅방에 입장할 때 이전 메세지들을 api로 다 불러옴
 // 후에 소켓 연결
 // 후에 /topic/chat/room/{roomId}를 클라이언트에서 구독함
-// /topic/chat/message에 content, room_id를 json값으로 담아서 메세지 전송
+// /app/chat/message에 content, room_id를 json값으로 담아서 메세지 전송
 // 메세지를 /topic/char/room/{roomId}에 보내고 db 저장
