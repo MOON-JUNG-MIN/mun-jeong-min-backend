@@ -30,8 +30,8 @@ class MemberAddService (
         val user = userFacade.getCurrentUser()
         val bucket = bucketRepository.findBucketById(id) ?: throw BucketNotFoundException.EXCEPTION
         val member = userRepository.findUserByEmail(request.email) ?: throw UserNotFoundException.EXCEPTION
-        
-        memberRepository.findMemberByUser(member)?.let {
+
+        if(memberRepository.findMemberByUserAndBucket(member, bucket) != null) {
             throw MemberExistException.EXCEPTION
         }
         
