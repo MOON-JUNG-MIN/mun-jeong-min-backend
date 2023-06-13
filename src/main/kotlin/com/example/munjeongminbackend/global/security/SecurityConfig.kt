@@ -45,6 +45,7 @@ class SecurityConfig (
 
                 .antMatchers(HttpMethod.GET, "/room").authenticated()
                 .antMatchers(HttpMethod.GET, "/room/{id}").authenticated()
+                .antMatchers(HttpMethod.POST, "/room/{id}").authenticated()
 
                 .anyRequest().permitAll()
 

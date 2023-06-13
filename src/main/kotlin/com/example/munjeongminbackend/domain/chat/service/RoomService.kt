@@ -1,8 +1,12 @@
 package com.example.munjeongminbackend.domain.chat.service
 
+import com.example.munjeongminbackend.domain.chat.domain.Message
+import com.example.munjeongminbackend.domain.chat.domain.Room
 import com.example.munjeongminbackend.domain.chat.domain.repository.MessageRepository
 import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
 import com.example.munjeongminbackend.domain.chat.exception.RoomNotFoundException
+import com.example.munjeongminbackend.domain.chat.facade.RoomFacade
+import com.example.munjeongminbackend.domain.chat.present.dto.MessageRealRequest
 import com.example.munjeongminbackend.domain.chat.present.dto.element.RoomDataListResponse
 import com.example.munjeongminbackend.domain.chat.present.dto.element.RoomDataResponse
 import com.example.munjeongminbackend.domain.chat.present.dto.list.RoomListResponse
@@ -54,6 +58,18 @@ class RoomService (
                 room.id,
                 room.bucket.title,
                 data
+        )
+    }
+
+    @Transactional
+    fun send(request: MessageRealRequest, id: Long) {
+        val user = userFacade.getCurrentUser()
+        val room: Room = roomRepository.findRoomById(id) ?: throw RoomNotFoundException.EXCEPTION
+
+        messageRepository.save(
+                Message(
+                        request.message, user, room
+                )
         )
     }
 }

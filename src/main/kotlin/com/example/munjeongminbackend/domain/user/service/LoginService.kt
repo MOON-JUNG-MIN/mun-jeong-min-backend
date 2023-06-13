@@ -30,7 +30,7 @@ class LoginService (
                 redirectUri = clientProperties.redirectUri,
                 grantType = clientProperties.authorizationGrantType
         )
-
+        
         val token = "Bearer ${access.accessToken}"
 
         val user = userInfoClient.info(
