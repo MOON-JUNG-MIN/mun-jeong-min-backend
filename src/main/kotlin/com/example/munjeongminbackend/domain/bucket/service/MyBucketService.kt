@@ -8,6 +8,7 @@ import com.example.munjeongminbackend.domain.member.facade.MemberFacade
 import com.example.munjeongminbackend.domain.user.facade.UserFacade
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.util.stream.Collectors
 
 @Service
@@ -33,6 +34,10 @@ class MyBucketService (
                     tmp += 1
                     val cnt = it.bucket
                     val room = roomFacade.getRoomByBucket(cnt)
+
+                    val time = LocalDateTime.parse(cnt.createdAt.toString())
+                    val date = time.toLocalDate().toString() + " " + time.hour.toString() + ":" + time.second.toString()
+
                     MyBucketResponse (
                             id = cnt.id,
                             title = cnt.title,
@@ -40,7 +45,7 @@ class MyBucketService (
                             image = cnt.image,
                             targetDate = cnt.targetDate,
                             isEnd = cnt.isEnd,
-                            startDate = cnt.createdAt,
+                            startDate = date,
                             members = memberFacade.findUsersByBucket(cnt),
                             roomId = room.id,
                             roomName = room.bucket.title
