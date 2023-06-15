@@ -36,7 +36,7 @@ class MyBucketService (
                     val room = roomFacade.getRoomByBucket(cnt)
 
                     val time = LocalDateTime.parse(cnt.createdAt.toString())
-                    val date = time.toLocalDate().toString() + " " + time.hour.toString() + ":" + time.second.toString()
+                    val date = time.toLocalDate().toString()
 
                     MyBucketResponse (
                             id = cnt.id,
