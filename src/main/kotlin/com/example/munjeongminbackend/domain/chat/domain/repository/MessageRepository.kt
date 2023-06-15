@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MessageRepository : CrudRepository<Message, Long> {
     fun findAllByRoom(room: Room): List<Message>
+
+    fun deleteAllByRoom(room: Room): List<Message>
 }

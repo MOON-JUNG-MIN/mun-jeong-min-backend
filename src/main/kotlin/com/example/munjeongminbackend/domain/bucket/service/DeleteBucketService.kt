@@ -4,6 +4,7 @@ import com.example.munjeongminbackend.domain.bucket.domain.repository.BucketRepo
 import com.example.munjeongminbackend.domain.bucket.exception.BucketNotAuth
 import com.example.munjeongminbackend.domain.bucket.exception.BucketNotFoundException
 import com.example.munjeongminbackend.domain.bucket.facade.BucketFacade
+import com.example.munjeongminbackend.domain.chat.domain.repository.MessageRepository
 import com.example.munjeongminbackend.domain.chat.domain.repository.RoomRepository
 import com.example.munjeongminbackend.domain.chat.exception.RoomNotFoundException
 import com.example.munjeongminbackend.domain.member.domain.repository.MemberRepository
@@ -18,7 +19,8 @@ class DeleteBucketService (
         private val bucketRepository: BucketRepository,
         private val memberRepository: MemberRepository,
         private val userFacade: UserFacade,
-        private val roomRepository: RoomRepository
+        private val roomRepository: RoomRepository,
+        private val messageRepository: MessageRepository
 ) {
 
     @Transactional
@@ -34,6 +36,8 @@ class DeleteBucketService (
         memberRepository.deleteAll(members)
 
         val room = roomRepository.findRoomByBucket(bucket) ?: throw RoomNotFoundException.EXCEPTION
+
+        messageRepository.deleteAllByRoom(room)
         roomRepository.delete(room)
 
         bucketRepository.delete(bucket)
