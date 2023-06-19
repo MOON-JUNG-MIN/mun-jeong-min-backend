@@ -12,7 +12,6 @@ import com.example.munjeongminbackend.domain.user.exception.UserNotFoundExceptio
 import com.example.munjeongminbackend.global.security.jwt.JwtProvider
 import lombok.extern.slf4j.Slf4j
 import org.springframework.messaging.handler.annotation.DestinationVariable
-import org.springframework.messaging.handler.annotation.Header
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.handler.annotation.SendTo
@@ -46,14 +45,12 @@ class MessageController (
                 Message(message.message, user, room)
         )
 
-        val messageResponse = MessageResponse(
+        //simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", messageResponse)
+        return MessageResponse(
                 sender = user.nickname,
                 senderImage = user.profileImage,
                 message.message
         )
-
-        //simpMessageSendingOperations.convertAndSend("/topic/chat/room/${message.roomId}", messageResponse)
-        return messageResponse
     }
 }
 // 채팅방에 입장할 때 이전 메세지들을 api로 다 불러옴
